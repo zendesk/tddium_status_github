@@ -12,6 +12,17 @@ And, in your Rakefile make sure to include:
 require 'tddium-status-github'
 ```
 
+### Or
+
+Add the following to your `tddium.yml` configuration:
+```yaml
+:tddium:
+  # Existing configuration...
+  :boot_hook: >
+    /usr/bin/env sh -c "gem install --user-install --no-rdoc --no-ri tddium-status-github &&
+    echo '$:.concat(Dir.glob(File.join(Gem.user_dir, \"gems\", \"*\", \"lib\"))); require \"tddium-status-github\"' >> Rakefile"
+```
+
 ## Copyright and license
 
 Copyright 2013 Zendesk
