@@ -10,11 +10,13 @@ namespace :tddium do
       if response.status == 201
         ENV['GITHUB_TOKEN'] = response.token
 
-        github.repos.statuses.create("zendesk", "zendesk", sha,
+        github.repos.statuses.create(*remote, sha,
           :state => "pending",
+          :description => session,
           :target_url => url)
       end
-    rescue Github::Error::GithubError
+    rescue Github::Error::GithubError => e
+      STDERR.puts("Caught Github error when updating status: #{e.message}")
     end
   end
 
@@ -35,16 +37,18 @@ namespace :tddium do
       end
 
       begin
-        github.repos.statuses.create("zendesk", "zendesk", sha,
+        github.repos.statuses.create(*remote, sha,
           :state => status,
+          :description => session,
           :target_url => url)
-      rescue Github::Error::GithubError
+      rescue Github::Error::GithubError => e
+        STDERR.puts("Caught Github error when updating status: #{e.message}")
       end
     end
   end
 
   def url
-    "https://api.tddium.com/1/reports/#{ENV['TDDIUM_SESSION_ID']}"
+    "https://api.tddium.com/1/reports/#{session}"
   end
 
   def sha
@@ -53,5 +57,14 @@ namespace :tddium do
 
   def basic_auth
     ENV['GITHUB_AUTH']
+  end
+
+  def session
+    ENV['TDDIUM_SESSION_ID']
+  end
+
+  def remote
+    url = `git config --get remote.origin.url`
+    url =~ /.*[:\/](.*\/[^\.]*)/ && $1.split("/")
   end
 end
