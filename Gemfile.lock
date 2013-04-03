@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tddium-status-github (0.0.2)
+    tddium-status-github (0.0.3)
       github_api
 
 GEM
