@@ -74,7 +74,7 @@ namespace :tddium do
   end
 
   def remote
-    url = `git config --get remote.ci-origin.url`
+    url = `git config --get remote.ci-origin.url`.strip
     url =~ /.*[:\/](.*\/[^\.]*)/ && $1.split("/")
   end
 
