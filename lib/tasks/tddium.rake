@@ -3,20 +3,21 @@ require 'github_api'
 namespace :tddium do
   desc "tddium environment pre-run setup task"
   task :pre_hook do
-    begin
-      github = Github.new(:basic_auth => basic_auth)
-      response = github.oauth.create(:scopes => ["repo:status"])
+    if (basic_auth && !basic_auth.empty?) && (remote && !remote.empty?)
+      begin
+        github = Github.new(:basic_auth => basic_auth)
+        response = github.oauth.create(:scopes => ["repo:status"])
 
-      if response.status == 201
-        ENV['GITHUB_TOKEN'] = response.token
+        if response.status == 201
+          ENV['GITHUB_TOKEN'] = response.token
 
-        github.repos.statuses.create(*remote, sha,
-          :state => "pending",
-          :description => "Running build ##{session}.",
-          :target_url => url)
+          github.repos.statuses.create(*remote, sha,
+            :state => "pending",
+            :description => "Running build ##{session}.",
+            :target_url => url)
+      rescue Github::Error::GithubError => e
+        STDERR.puts("Caught Github error when updating status: #{e.message}")
       end
-    rescue Github::Error::GithubError => e
-      STDERR.puts("Caught Github error when updating status: #{e.message}")
     end
   end
 
@@ -24,7 +25,7 @@ namespace :tddium do
   task :post_build_hook do
     token = ENV['GITHUB_TOKEN']
 
-    if token
+    if token && !token.empty?
       github = Github.new(:oauth_token => token)
 
       case ENV['TDDIUM_BUILD_STATUS']
