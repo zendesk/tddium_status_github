@@ -1,3 +1,16 @@
+## What?
+
+Provides [GitHub status notifications](https://github.com/blog/1227-commit-status-api) when running tests through [Tddium](http://tddium.com).
+
+## How?
+
+Add `tddium-status-github` to your Gemfile.
+
+And, in your Rakefile make sure to include:
+
+```ruby
+require 'tddium-status-github'
+```
 
 ## Copyright and license
 
