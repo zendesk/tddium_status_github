@@ -1,0 +1,24 @@
+PATH
+  remote: .
+  specs:
+    tddium-status-github (0.0.1)
+      github-api
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    github-api (0.0.1)
+      httparty
+    httparty (0.10.2)
+      multi_json (~> 1.0)
+      multi_xml (>= 0.5.2)
+    multi_json (1.7.2)
+    multi_xml (0.5.3)
+    rake (10.0.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rake
+  tddium-status-github!
