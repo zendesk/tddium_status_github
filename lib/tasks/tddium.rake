@@ -15,6 +15,7 @@ namespace :tddium do
             :state => "pending",
             :description => "Running build ##{session}.",
             :target_url => url)
+        end
       rescue Github::Error::GithubError => e
         STDERR.puts("Caught Github error when updating status: #{e.message}")
       end
