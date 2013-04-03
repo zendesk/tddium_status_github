@@ -12,7 +12,7 @@ namespace :tddium do
 
         github.repos.statuses.create(*remote, sha,
           :state => "pending",
-          :description => session,
+          :description => "Running build ##{session}.",
           :target_url => url)
       end
     rescue Github::Error::GithubError => e
@@ -20,26 +20,29 @@ namespace :tddium do
     end
   end
 
-  desc "Run post-build script"
+  desc "tddium environment post-build setup task"
   task :post_build_hook do
     token = ENV['GITHUB_TOKEN']
 
     if token
       github = Github.new(:oauth_token => token)
 
-      status = case ENV['TDDIUM_BUILD_STATUS']
+      case ENV['TDDIUM_BUILD_STATUS']
       when "passed"
-        "success"
+        status = "success"
+        description = "Build ##{session} succeeded!"
       when "error"
-        "error"
+        status = "error"
+        description = "Build ##{session} encountered an error."
       else
-        "failure"
+        status = "failure"
+        description = "Build ##{session} failed."
       end
 
       begin
         github.repos.statuses.create(*remote, sha,
           :state => status,
-          :description => session,
+          :description => description,
           :target_url => url)
       rescue Github::Error::GithubError => e
         STDERR.puts("Caught Github error when updating status: #{e.message}")
