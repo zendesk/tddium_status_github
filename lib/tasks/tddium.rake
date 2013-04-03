@@ -14,7 +14,7 @@ namespace :tddium do
             file << response.token
           end
 
-          github.repos.statuses.create(*remote, sha,
+          github.repos.statuses.create(remote[0], remote[1], sha,
             :state => "pending",
             :description => "Running build ##{session}.",
             :target_url => url)
@@ -47,7 +47,7 @@ namespace :tddium do
       end
 
       begin
-        github.repos.statuses.create(*remote, sha,
+        github.repos.statuses.create(remote[0], remote[1], sha,
           :state => status,
           :description => description,
           :target_url => url)
