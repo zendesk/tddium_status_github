@@ -1,4 +1,4 @@
-require 'github_api'
+require 'github-api'
 
 namespace :tddium do
   desc "tddium environment pre-run setup task"
