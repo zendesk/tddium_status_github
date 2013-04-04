@@ -6,14 +6,10 @@ namespace :tddium do
   task :pre_hook do
     if token && !token.empty?
       begin
-        github = Github.new(:oauth_token => token)
-
-        if response.status == 201
-          github.repos.statuses.create(remote[0], remote[1], sha,
-            :state => "pending",
-            :description => "Running build ##{session}.",
-            :target_url => url)
-        end
+        github.repos.statuses.create(remote[0], remote[1], sha,
+          :state => "pending",
+          :description => "Running build ##{session}.",
+          :target_url => url)
       rescue Github::Error::GithubError => e
         STDERR.puts("Caught Github error when updating status: #{e.message}")
       end
@@ -23,8 +19,6 @@ namespace :tddium do
   desc "tddium environment post-build setup task"
   task :post_build_hook do
     if token && !token.empty?
-      github = Github.new(:oauth_token => token)
-
       case ENV['TDDIUM_BUILD_STATUS']
       when "passed"
         status = "success"
@@ -62,6 +56,10 @@ namespace :tddium do
 
   def token
     ENV['GITHUB_TOKEN']
+  end
+
+  def github
+    @github ||= Github.new(:oauth_token => token)
   end
 
   def remote
