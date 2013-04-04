@@ -6,20 +6,24 @@ Provides [GitHub status notifications](https://github.com/blog/1227-commit-statu
 
 ### Create a GitHub OAuth token
 
-Create a new GitHub application in "https://github.com/settings/applications"
-Create a new token from that application with the scope "repo:status":
+Create a new [GitHub application](https://github.com/settings/applications) and create a new token from that application with the scope "repo:status":
 ```
-$ curl -u {username}:{password} https://api.github.com/authorizations -X POST -d '{"scopes": ["repo:status"], "client_id": "...", "client_secret": "..."}'
+$ curl -u {username}:{password} https://api.github.com/authorizations -X POST \
+  -d '{"scopes": ["repo:status"], "client_id": "...", "client_secret": "..."}'
 ```
 
 #### Or
 
 Create a new token using basic authentication and the scope "repo:status":
 ```
-$ curl -u {username}:{password} https://api.github.com/authorizations -X POST -d '{"scopes": ["repo:status"], "note": "tddium status updater"}'
+$ curl -u {username}:{password} https://api.github.com/authorizations -X POST \
+  -d '{"scopes": ["repo:status"], "note": "tddium status updater"}'
 ```
 
+### Add the token to Tddium
+
 Add the returned token to your Tddium account or suite configuration:
+
 ```
 $ tddium config:add account GITHUB_TOKEN {token}
 ```
