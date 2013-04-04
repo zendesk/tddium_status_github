@@ -4,6 +4,21 @@ Provides [GitHub status notifications](https://github.com/blog/1227-commit-statu
 
 ## How?
 
+### Create a GitHub application and OAuth token
+
+Create a new GitHub application in "https://github.com/settings/applications"
+Create a new token from that application with the scope "repo:status":
+```
+$ curl -u {username}:{password} https://api.github.com/authorizations -X POST -d '{"scopes": ["repo:status"], "client_id": "...", "client_secret": "..."}'
+```
+
+Add the returned token to your Tddium account or suite configuration:
+```
+$ tddium config:add account GITHUB_TOKEN {token}
+```
+
+### Add tddium-status-github to your project
+
 Add `tddium-status-github` to your Gemfile.
 
 And, in your Rakefile make sure to include:
@@ -12,7 +27,7 @@ And, in your Rakefile make sure to include:
 require 'tddium-status-github'
 ```
 
-### Or
+#### Or
 
 Add the following to your `tddium.yml` configuration:
 ```yaml

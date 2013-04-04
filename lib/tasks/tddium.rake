@@ -4,16 +4,11 @@ require 'tempfile'
 namespace :tddium do
   desc "tddium environment pre-run setup task"
   task :pre_hook do
-    if (basic_auth && !basic_auth.empty?) && (remote && !remote.empty?)
+    if token && !token.empty?
       begin
-        github = Github.new(:basic_auth => basic_auth)
-        response = github.oauth.create(:scopes => ["repo:status"])
+        github = Github.new(:oauth_token => token)
 
         if response.status == 201
-          File.open(github_token_file, "w+") do |file|
-            file << response.token
-          end
-
           github.repos.statuses.create(remote[0], remote[1], sha,
             :state => "pending",
             :description => "Running build ##{session}.",
@@ -27,11 +22,7 @@ namespace :tddium do
 
   desc "tddium environment post-build setup task"
   task :post_build_hook do
-    token = File.read(github_token_file)
-
     if token && !token.empty?
-      File.delete(github_token_file)
-
       github = Github.new(:oauth_token => token)
 
       case ENV['TDDIUM_BUILD_STATUS']
@@ -65,20 +56,16 @@ namespace :tddium do
     `git rev-parse HEAD`.strip
   end
 
-  def basic_auth
-    ENV['GITHUB_AUTH']
-  end
-
   def session
     ENV['TDDIUM_SESSION_ID']
+  end
+
+  def token
+    ENV['GITHUB_TOKEN']
   end
 
   def remote
     url = `git config --get remote.ci-origin.url`.strip
     url =~ /.*[:\/](.*\/[^\.]*)/ && $1.split("/")
-  end
-
-  def github_token_file
-    File.join(Dir.tmpdir, "github_token")
   end
 end
