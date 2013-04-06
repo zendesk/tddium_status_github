@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name        = "tddium-status-github"
+  s.name        = "tddium_status_github"
   s.version     = "0.0.4"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Steven Davidovitz"]

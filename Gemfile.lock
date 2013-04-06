@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tddium-status-github (0.0.4)
+    tddium_status_github (0.0.4)
       github_api
 
 GEM
@@ -38,4 +38,4 @@ PLATFORMS
 
 DEPENDENCIES
   rake
-  tddium-status-github!
+  tddium_status_github!
