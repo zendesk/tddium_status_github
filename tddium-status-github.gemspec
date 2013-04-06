@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Steven Davidovitz"]
   s.email       = ["support@zendesk.com"]
   s.homepage    = "https://github.com/steved555/tddium-status-github"
-  s.summary     = %q{Updates GitHub commits with their Tddium test status.}
-  s.description = %q{Installs pre- and post-build hooks for Tddium that update GitHub commits with the test status.}
+  s.summary = %q{DEPRECATED: Use tddium_status_github}
+  s.description = %q{DEPRECATED: Use tddium_status_github}
   s.license = 'Apache License Version 2.0'
 
   s.required_ruby_version     = ">= 1.8.7"
