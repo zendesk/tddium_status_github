@@ -1,3 +1,4 @@
+require 'rake'
 require 'github_api'
 require 'tempfile'
 
