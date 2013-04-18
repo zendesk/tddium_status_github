@@ -1,6 +1,5 @@
 require 'rake'
 require 'github_api'
-require 'tempfile'
 
 namespace :tddium do
   desc "tddium environment pre-run setup task"
