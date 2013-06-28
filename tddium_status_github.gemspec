@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "tddium_status_github"
-  s.version     = "0.1.1"
+  s.version     = "0.2.0"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Steven Davidovitz"]
   s.email       = ["support@zendesk.com"]

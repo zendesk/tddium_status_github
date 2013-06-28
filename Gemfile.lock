@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tddium_status_github (0.1.1)
+    tddium_status_github (0.2.0)
       github_api
 
 GEM
@@ -15,14 +15,14 @@ GEM
       multi_json (~> 1.4)
       nokogiri (~> 1.5.2)
       oauth2
-    hashie (2.0.3)
+    hashie (2.0.5)
     httpauth (0.2.0)
     jwt (0.1.8)
       multi_json (>= 1.5)
-    multi_json (1.7.2)
+    multi_json (1.7.7)
     multi_xml (0.5.3)
     multipart-post (1.2.0)
-    nokogiri (1.5.9)
+    nokogiri (1.5.10)
     oauth2 (0.9.1)
       faraday (~> 0.8)
       httpauth (~> 0.1)
