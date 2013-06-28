@@ -4,12 +4,14 @@ require 'github_api'
 namespace :tddium do
   desc "tddium environment pre-run setup task"
   task :pre_hook do
-    if token && !token.empty?
+    if TddiumStatusGithub.token && !TddiumStatusGithub.token.empty?
       begin
-        github.repos.statuses.create(remote[0], remote[1], sha,
+        TddiumStatusGithub.github.repos.statuses.create(TddiumStatusGithub.remote[0],
+          TddiumStatusGithub.remote[1],
+          TddiumStatusGithub.sha,
           :state => "pending",
-          :description => "Running build ##{session}.",
-          :target_url => url)
+          :description => "Running build ##{TddiumStatusGithub.session}.",
+          :target_url => TddiumStatusGithub.url)
       rescue Github::Error::GithubError => e
         STDERR.puts("Caught Github error when updating status: #{e.message}")
       end
@@ -18,52 +20,29 @@ namespace :tddium do
 
   desc "tddium environment post-build setup task"
   task :post_build_hook do
-    if token && !token.empty?
+    if TddiumStatusGithub.token && !TddiumStatusGithub.token.empty?
       case ENV['TDDIUM_BUILD_STATUS']
       when "passed"
         status = "success"
-        description = "Build ##{session} succeeded!"
+        description = "Build ##{TddiumStatusGithub.session} succeeded!"
       when "error"
         status = "error"
-        description = "Build ##{session} encountered an error."
+        description = "Build ##{TddiumStatusGithub.session} encountered an error."
       else
         status = "failure"
-        description = "Build ##{session} failed."
+        description = "Build ##{TddiumStatusGithub.session} failed."
       end
 
       begin
-        github.repos.statuses.create(remote[0], remote[1], sha,
+        TddiumStatusGithub.github.repos.statuses.create(TddiumStatusGithub.remote[0],
+          TddiumStatusGithub.remote[1],
+          TddiumStatusGithub.sha,
           :state => status,
           :description => description,
-          :target_url => url)
+          :target_url => TddiumStatusGithub.url)
       rescue Github::Error::GithubError => e
         STDERR.puts("Caught Github error when updating status: #{e.message}")
       end
     end
-  end
-
-  def url
-    "https://api.tddium.com/1/reports/#{session}"
-  end
-
-  def sha
-    `git rev-parse HEAD`.strip
-  end
-
-  def session
-    ENV['TDDIUM_SESSION_ID']
-  end
-
-  def token
-    ENV['GITHUB_TOKEN']
-  end
-
-  def github
-    @github ||= Github.new(:oauth_token => token)
-  end
-
-  def remote
-    url = `git config --get remote.ci-origin.url`.strip
-    url =~ /.*[:\/](.*\/[^\.]*)/ && $1.split("/")
   end
 end

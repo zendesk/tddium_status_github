@@ -28,14 +28,14 @@ Add the returned token to your Tddium account or suite configuration:
 $ tddium config:add account GITHUB_TOKEN {token}
 ```
 
-### Add tddium-status-github to your project
+### Add tddium_status_github to your project
 
-Add `tddium-status-github` to your Gemfile.
+Add `tddium_status_github` to your Gemfile.
 
 And, in your Rakefile make sure to include:
 
 ```ruby
-require 'tddium-status-github'
+require 'tddium_status_github'
 ```
 
 #### Or
@@ -45,8 +45,8 @@ Add the following to your `tddium.yml` configuration:
 :tddium:
   # Existing configuration...
   :boot_hook: >
-    /usr/bin/env sh -c "gem install --user-install --no-rdoc --no-ri tddium-status-github &&
-    echo '$:.concat(Dir.glob(File.join(Gem.user_dir, \"gems\", \"*\", \"lib\"))); require \"tddium-status-github\"' >> Rakefile"
+    /usr/bin/env sh -c "gem install --user-install --no-rdoc --no-ri tddium_status_github &&
+    echo '$:.concat(Dir.glob(File.join(Gem.user_dir, \"gems\", \"*\", \"lib\"))); require \"tddium_status_github\"' >> Rakefile"
 ```
 
 ## Copyright and license
