@@ -3,6 +3,7 @@ require 'rake/testtask'
 
 require 'bundler/setup'
 require 'bundler/gem_tasks'
+
 require 'tddium_status_github'
 
 Rake::TestTask.new do |t|
